@@ -25,10 +25,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'u%(q4xs670v4w54!v(j80q$pc79dl+@o+@^2gj(lw^498m%zsc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 
-ALLOWED_HOSTS = ['consejo.nrc.org.co']
+ALLOWED_HOSTS = HOSTS
 
 LOGIN_URL = '/admin/login/'
 # Application definition
