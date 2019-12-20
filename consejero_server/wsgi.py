@@ -16,11 +16,12 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'consejero_server.settings'
 
 #application = get_wsgi_application()
 
-import django.core.handlers.wsgi
+#import django.core.handlers.wsgi
+from django.core.wsgi import get_wsgi_application
 from whitenoise import WhiteNoise
 
 
-
-application = django.core.handlers.wsgi.WSGIHandler()
-application = WhiteNoise(application, root=BASE_DIR+'/static')
+#application = django.core.handlers.wsgi.WSGIHandler()
+application = get_wsgi_application()
+application = WhiteNoise(applicatio, root=BASE_DIR+'/static')
 application.add_files(BASE_DIR + '/media' , prefix='media/')
