@@ -8,7 +8,7 @@ https://docs.djangoproject.com/en/1.11/howto/deployment/wsgi/
 """
 
 import os
-
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'consejero_server.settings'
 #from django.core.wsgi import get_wsgi_application
 
@@ -17,4 +17,10 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'consejero_server.settings'
 #application = get_wsgi_application()
 
 import django.core.handlers.wsgi
+from whitenoise import WhiteNoise
+
+
+
 application = django.core.handlers.wsgi.WSGIHandler()
+application = WhiteNoise(application, root=BASE_DIR+'/static')
+application.add_files(BASE_DIR + '/media' , prefix='media/')
