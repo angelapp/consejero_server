@@ -1,4 +1,4 @@
-acertifi==2017.11.5
+certifi==2017.11.5
 chardet==3.0.4
 Click==7.0
 Django==1.11.6
