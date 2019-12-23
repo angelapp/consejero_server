@@ -1,4 +1,4 @@
-certifi==2017.11.5
+acertifi==2017.11.5
 chardet==3.0.4
 Click==7.0
 Django==1.11.6
@@ -22,7 +22,7 @@ Jinja2==2.10
 MarkupSafe==1.0
 olefile==0.44
 Pillow==4.3.0
-psycopg2==2.7.3.2
+psycopg2==2.7.3
 python-dateutil==2.6.1
 python-memcached==1.59
 python-nvd3==0.14.2
