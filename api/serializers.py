@@ -344,8 +344,8 @@ class UserProfileCreateSerializer(serializers.Serializer):
 	"""Serializer to create new user and profile"""
 
 	#Basic user data
-	first_name = serializers.CharField()
-	last_name = serializers.CharField()
+	first_name = serializers.CharField(required = False)
+	last_name = serializers.CharField(required = False)
 	email = serializers.EmailField()
 	password = serializers.CharField()
 
@@ -377,8 +377,8 @@ class UserProfileCreateSerializer(serializers.Serializer):
 	def create(self, validated_data):
 		#Creating User Model
 		user = User.objects.create(username = validated_data['email'])
-		user.first_name = validated_data['first_name']
-		user.last_name = validated_data['last_name']
+		#user.first_name = validated_data['first_name']
+		#user.last_name = validated_data['last_name']
 		user.email = validated_data['email']
 		user.set_password(validated_data['password'])
 		user.save()
@@ -387,83 +387,84 @@ class UserProfileCreateSerializer(serializers.Serializer):
 		token, created = Token.objects.get_or_create(user=user)
 
 		#Creating Profile instance
-		gender = Gender.objects.get(pk = validated_data['gender'])
-		profile = Profile.objects.create(
-			user = user, 
-			gender = gender,
-			birthdate = validated_data['birthdate'],
-			isNRCBeneficiary = validated_data['isNRCBeneficiary'])
+		#gender = Gender.objects.get(pk = validated_data['gender'])
+		# profile = Profile.objects.create(
+		# 	user = user, 
+		# #	gender = gender,
+		# #	birthdate = validated_data['birthdate'],
+		# #	isNRCBeneficiary = validated_data['isNRCBeneficiary']
+		# )
 
 
-		try:
-			profile.document_number = validated_data['document_number']
-		except:
-			print('War: document_number missing')
+		# try:
+		# 	profile.document_number = validated_data['document_number']
+		# except:
+		# 	print('War: document_number missing')
 
-		try:
-			profile.document_type = DocumentType.objects.get(pk = validated_data['document_type'])
-		except:
-			print('War: document_type missing')
+		# try:
+		# 	profile.document_type = DocumentType.objects.get(pk = validated_data['document_type'])
+		# except:
+		# 	print('War: document_type missing')
 
-		try:
-			profile.contact_phone = validated_data['contact_phone']
-		except:
-			print('War: contact_phone missing')
+		# try:
+		# 	profile.contact_phone = validated_data['contact_phone']
+		# except:
+		# 	print('War: contact_phone missing')
 
-		profile.save()
+		# profile.save()
 
-		try:
-			profile.ethnic_group = EthnicGroup.objects.get(id=validated_data['ethnic_group'])
-		except:
-			print('War: ethnic_group missing')
-		profile.save()
+		# try:
+		# 	profile.ethnic_group = EthnicGroup.objects.get(id=validated_data['ethnic_group'])
+		# except:
+		# 	print('War: ethnic_group missing')
+		# profile.save()
 
-		try:
-			profile.condition = Condition.objects.get(id=validated_data['condition'])
-		except:
-			print('War: condition missing')
-		profile.save()
+		# try:
+		# 	profile.condition = Condition.objects.get(id=validated_data['condition'])
+		# except:
+		# 	print('War: condition missing')
+		# profile.save()
 
-		try:
-			profile.origin_city = City.objects.get(id=validated_data['origin_city'])
-		except:
-			print('War: origin_city missing')
-		profile.save()
+		# try:
+		# 	profile.origin_city = City.objects.get(id=validated_data['origin_city'])
+		# except:
+		# 	print('War: origin_city missing')
+		# profile.save()
 
-		try:
-			profile.role = RoleSerializer.objects.get(id=validated_data['role'])
-		except:
-			print('War: role missing')
-		profile.save()
+		# try:
+		#	profile.role = RoleSerializer.objects.get(id=validated_data['role'])
+		#except:
+		#	print('War: role missing')
+		#profile.save()
 
 
 		#Creating Location instance
-		try:
-			location_city = City.objects.get(pk = validated_data['actual_city'])
-			location = Location.objects.create(city = location_city, user = user)
-			try:
-				location.location_type = LocationType.objects.get(pk = validated_data['location_type'])
-			except:
-				print('War: location_type missing')
-			try:
-				location.address = validated_data['address']
-			except:
-				print('War: address missing')
-			try:
-				location.latitude = validated_data['latitude']
-			except:
-				print('War: latitude missing')
-			try:
-				location.longitude = validated_data['longitude']
-			except:
-				print('War: longitude missing')
-			try:
-				location.phone_number = validated_data['contact_phone']
-			except:
-				print('War: phone_number missing')	
-			location.save()
-		except:
-			print('War: actual_city missing')
+		# try:
+		# 	location_city = City.objects.get(pk = validated_data['actual_city'])
+		# 	location = Location.objects.create(city = location_city, user = user)
+		# 	try:
+		# 		location.location_type = LocationType.objects.get(pk = validated_data['location_type'])
+		# 	except:
+		# 		print('War: location_type missing')
+		# 	try:
+		# 		location.address = validated_data['address']
+		# 	except:
+		# 		print('War: address missing')
+		# 	try:
+		# 		location.latitude = validated_data['latitude']
+		# 	except:
+		# 		print('War: latitude missing')
+		# 	try:
+		# 		location.longitude = validated_data['longitude']
+		# 	except:
+		# 		print('War: longitude missing')
+		# 	try:
+		# 		location.phone_number = validated_data['contact_phone']
+		# 	except:
+		# 		print('War: phone_number missing')	
+		# 	location.save()
+		# except:
+		# 	print('War: actual_city missing')
 
 		return user
 
@@ -471,10 +472,10 @@ class UserProfileCreateSerializer(serializers.Serializer):
 	def to_representation(self, obj):
 		resp = {}
 		token = Token.objects.get(user = obj)
-		profile = Profile.objects.get(user = obj)
+		#profile = Profile.objects.get(user = obj)
 		resp['token'] = token.key
-		profile_serializer = ProfileSerializer(Profile.objects.get(user = obj), many =  False)
-		resp['profile'] = ProfileSerializer(Profile.objects.get(user = obj), many =  False).data
+		#profile_serializer = ProfileSerializer(Profile.objects.get(user = obj), many =  False)
+		#resp['profile'] = ProfileSerializer(Profile.objects.get(user = obj), many =  False).data
 		resp['user'] = UserSerializer(User.objects.get(username = obj.username), many =  False).data
 
 		return resp
