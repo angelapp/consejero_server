@@ -317,7 +317,7 @@ class UserUpdatedProfileSerializer(serializers.Serializer):
 		#profile = Profile.objects.get(user = obj)
 		resp['token'] = token.key
 		#profile_serializer = ProfileSerializer(Profile.objects.get(user = obj), many =  False)
-		resp['profile'] = ProfileSerializer(instance= obj, many =  False).data
+		#resp['profile'] = ProfileSerializer(instance= obj, many =  False).data
 		resp['user'] = UserSerializer(instance = user, many =  False).data
 
 		return resp 
@@ -490,16 +490,17 @@ class UserAvatarSerializer(serializers.Serializer):
 	def create(self, validated_data):
 		#Se personaliza para manejar que sol exista una pieza por parte del cuerpo y por usuario
 		piece = AvatarPiece.objects.get(pk = validated_data['avatar_piece'])
-		#print('encontrado piece' + str(piece))
+		print('encontrado piece' + str(piece))
+		print('USER: ' + validated_data['user'])
 		user = User.objects.get(pk = validated_data['user'])
-		#print('encontrado user' + str(user))
+		print('encontrado user' + str(user))
 		try:
 			user_avatar = UserAvatar.objects.get(user = user, avatar_piece__body_part = piece.body_part)
-			#print('encontrado user_avatar' + str(user_avatar))
+			print('encontrado user_avatar' + str(user_avatar))
 			user_avatar.avatar_piece = piece
 		except:
 			user_avatar = UserAvatar.objects.create(user = user, avatar_piece = piece)
-			#print('creado user_avatar' + str(user_avatar))
+			print('creado user_avatar' + str(user_avatar))
 		user_avatar.save()
 		#print('guardado user_avatar' + str(user_avatar))
 		return user_avatar
@@ -584,10 +585,10 @@ class UserLogginSerializer(serializers.Serializer):
 	def to_representation(self, obj):
 		resp = {}
 		token = Token.objects.get(user = obj)
-		profile = Profile.objects.get(user = obj)
+		#profile = Profile.objects.get(user = obj)
 		resp['token'] = token.key
-		profile_serializer = ProfileSerializer(Profile.objects.get(user = obj), many =  False)
-		resp['profile'] = ProfileSerializer(Profile.objects.get(user = obj), many =  False).data
+		#profile_serializer = ProfileSerializer(Profile.objects.get(user = obj), many =  False)
+		#resp['profile'] = ProfileSerializer(Profile.objects.get(user = obj), many =  False).data
 		resp['user'] = UserSerializer(User.objects.get(username = obj.username), many =  False).data
 		return resp
 
